@@ -1,0 +1,46 @@
+[User]
+#credentials for obm and portal
+login: 
+pass:
+#obm internal user id, used only for mass deleting
+user_id:
+#maxage when processing user ics export
+maxage: 180
+
+[Group]
+#group id for others users
+group_id: 10951
+
+[Url]
+#warning : use %% for % in urls
+#if no portal_login, then obm's homepage
+portal_start: 
+#if there is a portal without sso in front of obm
+portal_login: 
+#obm login url
+obm_login: %(portal_start)s/obm/calendar/calendar_index.php
+#keep as is
+obm_export: %(obm_login)s?action=export&popup=1
+obm_import: %(obm_login)s?action=import
+#external calendar (auto import), like Google Calendar private url
+external: 
+
+[Path]
+#Path are relative to the python scripts
+#directory are created if they don't exist
+work_directory : icals
+publish_directory : ../www
+tmp_directory: tmp
+
+[Files]
+#name of the obm ics file after filtering
+obm_ics: obm.ics
+#name of the external ics file after filtering (for the record)
+external_ics: google.ics
+
+[Purges]
+#block size when mass deleting events
+limit: 1000
+#min age for deleting
+age: 540
+
