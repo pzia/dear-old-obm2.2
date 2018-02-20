@@ -377,7 +377,7 @@ def publish(filelist = None):
     if filelist == None :
         filelist = [p for p in pathlib.Path(workpath).iterdir() if p.is_file()]
     for f in filelist :
-        fpath = os.path.join(workpath, f)
+        fpath = os.path.join(workpath, f.name)
         dpath = os.path.abspath(os.path.join(publishpath, f.name))
         logging.debug("Copy file %s to %s", fpath, dpath)
         copyfile(fpath, dpath)
