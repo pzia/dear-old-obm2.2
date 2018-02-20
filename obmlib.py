@@ -400,17 +400,17 @@ def purge(s = None):
 
     for delete_data in topurge:
         logging.debug("Quick delete of %s at %s", delete_data['event_id'], delete_data['date_begin'])
-        print(delete_data['date_begin']) #print something to show we're working
+        #print(delete_data['date_begin']) #print something to show we're working
         q = s.post(obm_login, data=delete_data)
         if q.status_code != 200:
-            print("ERROR with %s at %s" % (delete_data['event_id'], delete_data['date_begin']))
+            logging.error("ERROR with %s at %s" % (delete_data['event_id'], delete_data['date_begin']))
         
     for decline_data in todecline:
         logging.debug("Quick decline %s by %s", decline_data['calendar_id'], decline_data['entity_id'])
-        print("-%s-" % decline_data['calendar_id']) #print something to show we're working
+        #print("-%s-" % decline_data['calendar_id']) #print something to show we're working
         q = s.get(obm_login, data=decline_data)
         if q.status_code != 200: #FIXME : not useful
-            print("ERROR declining %s by %s" % (decline_data['calendar_id'], decline_data['entity_id']))
+            logging.error("ERROR declining %s by %s" % (decline_data['calendar_id'], decline_data['entity_id']))
         
     return(s) #return session for later use
 
