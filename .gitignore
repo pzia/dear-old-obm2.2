@@ -103,3 +103,5 @@ ENV/
 #specific
 obm.ini
 obm.log
+tmp/
+icals/
