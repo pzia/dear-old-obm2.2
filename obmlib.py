@@ -23,7 +23,7 @@ import re
 
 #logging
 import logging
-logging.basicConfig(filename='obm.log',level=logging.DEBUG)
+logging.basicConfig(filename=os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'obm.log'),level=logging.DEBUG)
 
 #global config
 gconfig = None
@@ -93,6 +93,10 @@ def fileSHA ( filepath ) :
         return digest.hexdigest()
 
 #config helpers
+def localpath():
+    """Path of launcher, supposed to be the root of the tree"""
+    return(os.path.dirname(os.path.abspath(sys.argv[0])))
+
 def get_config(cname = 'obm.ini'):
     """Load config as a dict"""
     #Configuration
@@ -100,13 +104,9 @@ def get_config(cname = 'obm.ini'):
     if gconfig == None :
         logging.info("Load config")
         gconfig = configparser.ConfigParser()
-        gconfig.readfp(open(cname))
+        gconfig.readfp(open(os.path.join(localpath(), cname)))
         logging.info("Config loaded, user %s" % gconfig.get('User', 'login'))
     return gconfig
-
-def localpath():
-    """Path of launcher, supposed to be the root of the tree"""
-    return(os.path.dirname(os.path.abspath(sys.argv[0])))
 
 def get_path(pathname_config, filename_config = None):
     """Helper to get pathname from config, and create if necessary"""
