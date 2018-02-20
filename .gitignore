@@ -105,3 +105,4 @@ obm.ini
 obm.log
 tmp/
 icals/
+.vscode/settings.json
