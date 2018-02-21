@@ -271,7 +271,7 @@ def connect():
     
     return(s) #We're done and logged in.
 
-def parse_group_to_ical(s = None, group_id = None):
+def parse_group_to_ical(s = None, group_id = None, from_month = -1, to_month = 3):
     """
     Connect and parse group calendar from obm ihm
     Write ics files
@@ -283,10 +283,12 @@ def parse_group_to_ical(s = None, group_id = None):
         group_id = config.get("Group", "group_id")
     obm_index = config.get("Url", "obm_login")
     owner_id = config.get("User", "user_id")
-    today = datetime.now(timezone.utc)
-    onemonthago = datetime.now(timezone.utc)+relativedelta(months=-1)
-    nextmonth = datetime.now(timezone.utc)+relativedelta(months=+1)
 
+    list_dates = []
+    today = datetime.now(timezone.utc)
+    for m in range(from_month, to_month+1):
+        list_dates.append(datetime.now(timezone.utc)+relativedelta(months=m))
+    
     #Group select
     logging.debug("Change to group %s", group_id)
     datas = {
@@ -311,7 +313,7 @@ def parse_group_to_ical(s = None, group_id = None):
 
     #parse calendar for 3 months : FIXME : better range
     calendars = {}
-    for dmonth in [today,onemonthago,nextmonth]:
+    for dmonth in list_dates:
         logging.debug("Month of %s", dmonth.isoformat())
         datas = {
             'date' : dmonth.isoformat(),
