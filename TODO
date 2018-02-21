@@ -1,6 +1,5 @@
 * user agent in config
 * refactoring session management
-* date range for groups
 * use command line
 * differential update from ajax
 * automatic email : incoming events => New project ?
