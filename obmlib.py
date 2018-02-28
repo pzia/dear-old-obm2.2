@@ -227,8 +227,10 @@ def debug(q, output=None):
         with open(output, "w") as fpage:
             fpage.write(q.text)
 
-def connect():
+def connect(s = None):
     """Connect to portal and OBM, keeping cookies"""
+    if s != None : #already connected
+        return(s)
     logging.debug("Connecting")
     config = get_config()
     portal_start = config.get('Url', 'portal_start')
@@ -277,8 +279,8 @@ def parse_group_to_ical(s = None, group_id = None, from_month = -1, to_month = 3
     Write ics files
     """
     config = get_config()
-    if s == None : #Open session if None
-        s = connect()
+    s = connect(s) #connect if not connected
+    
     if group_id == None :
         group_id = config.get("Group", "group_id")
     obm_index = config.get("Url", "obm_login")
@@ -387,8 +389,8 @@ def publish(filelist = None):
 def purge(s = None):
     """Delete (and decline) old events"""
     config = get_config()
-    if s == None : #Open session if None
-        s = connect()
+    s = connect(s) #connect if not connected
+
     user_id = config.get('User', 'user_id')
     user_login = config.get('User', 'login')
     obm_ics = config.get('Files', 'obm_ics') #ics file from obm, previously downloaded
@@ -442,8 +444,8 @@ def download(s = None):
     """Download ics file exported from OBM"""
 
     config = get_config()
-    if s == None : #Open session if None
-        s = connect()
+    s = connect(s) #connect if not connected
+
     local_filename = get_path('tmp_directory', 'obm_ics')
     obm_export = config.get('Url', 'obm_export')
 
@@ -474,8 +476,8 @@ def upload(s = None, pathname = None):
     """Import ics file into OBM"""
 
     config = get_config()
-    if s == None : #Open session if None
-        s = connect()
+    s = connect(s) #connect if not connected
+
     if pathname == None :
         pathname = get_path('work_directory', 'external_ics')
     
