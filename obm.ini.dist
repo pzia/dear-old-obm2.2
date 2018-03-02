@@ -2,7 +2,7 @@
 #credentials for obm and portal
 login: 
 pass:
-#obm internal user id, used only for mass deleting
+#obm internal user id, used only for mass deleting and when you are in your own groups
 user_id:
 #maxage when processing user ics export
 maxage: 180
