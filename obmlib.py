@@ -309,6 +309,7 @@ def parse_group_to_ical(s = None, group_id = None, from_month = -1, to_month = 3
     #get persons : user_id <=> user_name
     l = re.findall(r'<li.*?class="(eventOwner\d+).*?data-user-(\d+).*?&nbsp;(.*?)\n\s+<\/li>', q.text, re.MULTILINE|re.DOTALL)
     persons = {}
+    persons[config.get('User', 'user_id')] = config.get('User', 'login')
     for p in l:
         persons[p[1]] = p[2]
 
@@ -336,7 +337,6 @@ def parse_group_to_ical(s = None, group_id = None, from_month = -1, to_month = 3
                 calendars[user_id].add('prodid', '-//OBM Scrapping//')
                 calendars[user_id].add('version', '2.0')
             event = Event()
-            #event.add('uid', ev['id']+'@obm')
             event.add('dtstart', datetime.utcfromtimestamp(int(ev['time'])))
             event.add('dtend', datetime.utcfromtimestamp(int(ev['time'])+int(ev['duration'])))
             event.add("summary", ev['title'])
