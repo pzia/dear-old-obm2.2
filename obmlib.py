@@ -284,7 +284,6 @@ def parse_group_to_ical(s = None, group_id = None, from_month = -1, to_month = 3
     if group_id == None :
         group_id = config.get("Group", "group_id")
     obm_index = config.get("Url", "obm_login")
-    owner_id = config.get("User", "user_id")
 
     list_dates = []
     today = datetime.now(timezone.utc)
@@ -332,8 +331,6 @@ def parse_group_to_ical(s = None, group_id = None, from_month = -1, to_month = 3
                 ev[tt[0]] = tt[1].replace("\\n", "\n").replace("\\'", "\'").replace('&quot;', '&')
             
             user_id = ev['entity_id']
-            if user_id == owner_id:
-                continue #don't get my events
             if user_id not in calendars :
                 calendars[user_id] = Calendar()
                 calendars[user_id].add('prodid', '-//OBM Scrapping//')
