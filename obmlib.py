@@ -339,9 +339,9 @@ def parse_group_to_ical(s = None, group_id = None, from_month = -1, to_month = 3
             event = Event()
             event.add('dtstart', datetime.utcfromtimestamp(int(ev['time'])))
             event.add('dtend', datetime.utcfromtimestamp(int(ev['time'])+int(ev['duration'])))
-            event.add("summary", ev['title'])
-            event.add('description', ev['description'])
-            event.add('location', ev['location'])
+            event.add("summary", ev['title'].strip("\n .;-"))
+            event.add('description', ev['description'].strip("\n .;-"))
+            event.add('location', ev['location'].strip("\n .;-"))
             calendars[user_id].add_component(event)
 
     work_path = get_path('work_directory')
