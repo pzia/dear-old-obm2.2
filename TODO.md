@@ -1,3 +1,5 @@
+# IDEAS
+
 * add hook post publishing
 * user agent in config
 * refactoring session management
