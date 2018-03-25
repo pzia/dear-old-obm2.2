@@ -44,3 +44,6 @@ limit: 1000
 #min age for deleting
 age: 540
 
+[Hook]
+post-publish:
+

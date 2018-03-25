@@ -3,7 +3,7 @@
 
 #icalendar
 from icalendar import Calendar, parser_tools, Event
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone, timedelta, date
 from dateutil.relativedelta import relativedelta
 
 #config
@@ -133,13 +133,15 @@ def filter_from_icalendar(gcal, maxage = None):
     for component in gcal.walk():
         if component.name == "VEVENT":
             dt = component.get('dtstart').dt
+            if type(dt) == type(date.today()) :
+                dt = datetime.combine(dt, datetime.min.time(), tzinfo=timezone.utc)
+            logging.debug("VEVENT %s, %s", dt, component.get('summary'))
             if dt > oldest : #keep this one
                 ncal.add_component(component)
                 logging.debug("Keeping %s, %s", dt, component.get('summary'))
             elif component.has_key('rrule'): #recurring event
                 rrule = component.get('rrule')
-                until = rrule['UNTIL'][0]
-                if until > oldest : #OK, keep this one
+                if 'UNTIL' not in rrule or rrule['UNTIL'][0] > oldest : #OK, keep this one
                     ncal.add_component(component)
                     logging.debug("Keeping recur event %s, %s", dt, component.get('summary'))
     return(ncal)
@@ -372,6 +374,7 @@ def icalendar_from_file(pathname = None, ddecode = False):
 
 def publish(filelist = None):
     """Copy ics files from work to publish directory"""
+    config = get_config()
     workpath = get_path('work_directory')
     publishpath = get_path('publish_directory')
     logging.debug("Publishing from %s to %s", workpath, publishpath)
@@ -382,6 +385,10 @@ def publish(filelist = None):
         dpath = os.path.abspath(os.path.join(publishpath, f.name))
         logging.debug("Copy file %s to %s", fpath, dpath)
         copyfile(fpath, dpath)
+    hook = config.get('Hook', 'post-publish', fallback=False)
+    if hook:
+        #FIXME : Execute something
+        pass
 
 def purge(s = None):
     """Delete (and decline) old events"""
