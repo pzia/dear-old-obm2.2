@@ -1,4 +1,3 @@
-* FIX : last recurring event doesn't display in Google Calendar
 * add hook post publishing
 * user agent in config
 * refactoring session management
