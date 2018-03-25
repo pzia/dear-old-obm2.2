@@ -134,7 +134,7 @@ def filter_from_icalendar(gcal, maxage = None):
         if component.name == "VEVENT":
             dt = component.get('dtstart').dt
             if type(dt) == type(date.today()) :
-                dt = datetime.combine(dt, datetime.min.time(), tzinfo=timezone.utc)
+                dt = datetime.combine(dt, datetime.min.time()).replace(tzinfo=timezone.utc)
             logging.debug("VEVENT %s, %s", dt, component.get('summary'))
             if dt > oldest : #keep this one
                 ncal.add_component(component)
