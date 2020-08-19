@@ -369,7 +369,11 @@ def icalendar_from_file(pathname = None, ddecode = False):
     else :
         icaldata = g.read()
     g.close()
-    cal = Calendar().from_ical(icaldata)
+    try :
+        cal = Calendar().from_ical(icaldata)
+    except :
+        print(pathname, ddecode)
+        return(None)
     return(cal)
 
 def publish(filelist = None):
